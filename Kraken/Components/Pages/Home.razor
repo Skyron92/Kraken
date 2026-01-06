@@ -2,5 +2,19 @@
 
 <h1>Accueil</h1>
 
-<Category/>
-<Category/>
+<div style="padding: 1em;">
+    <CategoryButton @bind-IsOpen="_isFormOpen"/>
+    @if (_isFormOpen)
+    {
+        <p>Form is open !</p>
+    }
+    <div>
+        <Category/>
+        <Category/> 
+    </div>
+</div>
+
+@code
+{
+    bool _isFormOpen;
+}

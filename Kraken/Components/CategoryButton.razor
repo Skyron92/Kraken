@@ -1,0 +1,36 @@
+﻿<style>
+    .btn{
+        border-radius: 90px;
+        border: solid 1px dodgerblue;
+        background-color: white;
+        color: dodgerblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .btn svg {
+        width: 32px;
+        height: 32px;
+        stroke: dodgerblue;
+        stroke-width: 3;
+        stroke-linecap: round;
+    }
+    .btn:hover{
+        background-color: dodgerblue;
+        color: white;
+    }
+    .btn:hover svg{
+        stroke: white;
+    }
+    .icon{
+        margin-left: 1em;
+    }
+</style>
+
+<button class="btn" @onclick="DisplayForm">
+    Créer catégorie
+    <svg viewBox="0 0 24 24" class="icon">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+</button>
