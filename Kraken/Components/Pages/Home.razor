@@ -1,20 +1,32 @@
 ﻿@page "/"
 
-<h1>Accueil</h1>
-
-<div style="padding: 1em;">
-    <CategoryButton @bind-IsOpen="_isFormOpen"/>
+<div style="padding: 5em;">
+    <MudGrid>
+        <MudItem xs="12">
+            <CategoryButton @bind-IsOpen="_isFormOpen"/>
+        </MudItem>
+        <MudItem xs="10">
+            <MudExpansionPanels MultiExpansion="true" Outlined="true">
+                @foreach (var cat in _categories) {
+                    <Category OnEdit="EditCategory"/>
+                }
+            </MudExpansionPanels>
+        </MudItem>
+    </MudGrid>
     @if (_isFormOpen)
     {
-        <p>Form is open !</p>
+        <CategoryForm Category="_editingCategory"/>
     }
-    <div>
-        <Category/>
-        <Category/> 
-    </div>
 </div>
 
 @code
 {
-    bool _isFormOpen;
+    Category[] _categories = {new Category()};
+    static bool _isFormOpen;
+    static Category? _editingCategory;
+
+    public static void EditCategory(Category? category = null) {
+        _isFormOpen = true;
+        _editingCategory = category;
+    }
 }
