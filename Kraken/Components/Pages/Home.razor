@@ -1,32 +1,42 @@
 ﻿@page "/"
+@using Kraken.Components.Models
+@using Category = Kraken.Components.Category
 
 <div style="padding: 5em;">
     <MudGrid>
         <MudItem xs="12">
-            <CategoryButton @bind-IsOpen="_isFormOpen"/>
+            <CategoryButton @bind-IsOpen="Categories.IsEditing"/>
         </MudItem>
         <MudItem xs="10">
             <MudExpansionPanels MultiExpansion="true" Outlined="true">
-                @foreach (var cat in _categories) {
-                    <Category OnEdit="EditCategory"/>
+            
+                @if (_isLoading)
+                {
+                    <MudProgressCircular Indeterminate Size="Size.Small"/>
+                }
+                else
+                { 
+                    @foreach (var cat in Categories.Values)
+                    {
+                        <Category CategoryData="cat" OnEdit="Categories.EditCategory"/>
+                    }
                 }
             </MudExpansionPanels>
         </MudItem>
     </MudGrid>
-    @if (_isFormOpen)
-    {
-        <CategoryForm Category="_editingCategory"/>
+    @if (Categories.IsEditing) {
+        <CategoryForm Category="Categories.CategoryEditing" OnValidate="Categories.Validate" OnClose="Categories.CancelEditing"/>
     }
 </div>
 
 @code
 {
-    Category[] _categories = {new Category()};
-    static bool _isFormOpen;
-    static Category? _editingCategory;
-
-    public static void EditCategory(Category? category = null) {
-        _isFormOpen = true;
-        _editingCategory = category;
+    public static readonly Categories Categories = new();
+    bool _isLoading;
+    
+    protected override async Task OnInitializedAsync() {
+        _isLoading = true;
+        await Categories.GetCategories();
+        _isLoading = false;
     }
 }

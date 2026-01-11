@@ -1,10 +1,27 @@
-﻿<MudStack Row="true">
-    <MudExpansionPanel Text="@($"{_name} : ${RemainingAmount}")">
-        @foreach (var op in _operations)
+﻿@using System.Globalization
+<MudStack Row="true">
+    <MudExpansionPanel Text="@($"{Name} : ${RemainingAmount.ToString("C", new CultureInfo("fr-FR"))}")">
+        @if (_isLoading)
         {
-            <Operation Data="op"/>
+            <MudProgressCircular Indeterminate Size="Size.Small"/>
         }
-        <MudText Typo="Typo.h6">@_name</MudText>
+        else
+        {
+            @foreach (var op in Operations)
+            {
+                <Operation Data="op"/>
+            } 
+        }
     </MudExpansionPanel>
     <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" OnClick="Edit"/>
 </MudStack>
+
+@code
+{
+    bool _isLoading;
+    protected override async Task OnInitializedAsync() {
+        _isLoading = true;
+        await CategoryData.GetOperations();
+        _isLoading = false;
+    }
+}

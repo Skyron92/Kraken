@@ -1,30 +1,23 @@
 ﻿using Microsoft.AspNetCore.Components;
+using DataOp = Kraken.Components.Models.Operation;
+using DataCat = Kraken.Components.Models.Category;
+using UIOp = Kraken.Components.Operation;
 
 namespace Kraken.Components;
 
 public partial class Category : ComponentBase
 {
-    private string _name="This is my category";
-    private float RemainingAmount { get; set; } = 50.266f;
-    private List<Operation> _operations = new ();
-    [Parameter] public EventCallback<Category> OnEdit { get; set; }
+    [Parameter] public required DataCat CategoryData { get; set; }
+    private string Name => CategoryData.Name;
+    private float RemainingAmount {
+        get => CategoryData.RemainingAmount;
+        set => CategoryData.RemainingAmount = value;
+    }
+    private List<DataOp> Operations => CategoryData.Operations;
+    [Parameter] public EventCallback<Guid> OnEdit { get; set; }
     
     private async Task Edit()
     {
-        await OnEdit.InvokeAsync(this);
-    }
-
-    private void AddOperation(Operation operation) {
-        float newAmount = RemainingAmount - operation.Amount;
-        RemainingAmount = newAmount;
-        _operations.Add(operation);
-    }
-    
-    private void ModifyOperation(Operation operation, Operation newOperation) {
-        _operations.Find(o => o == operation)?.Modify(newOperation);
-    }
-
-    private void RemoveOperation(Operation operation) {
-        _operations.Remove(operation);
+        await OnEdit.InvokeAsync(CategoryData.Id);
     }
 }

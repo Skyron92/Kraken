@@ -1,20 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
+using DataOp = Kraken.Components.Models.Operation;
 
 namespace Kraken.Components;
 
 public partial class Operation : ComponentBase
 {
-    [Parameter] public required Operation Data { get; set; }
-    private string _name;
-    public float Amount;
-    private DateTime _date;
+    [Parameter] public required DataOp Data { get; set; }
+    private string Name => Data.Name;
+    private float Amount => Data.Amount;
+    private DateTime Date => Data.Date;
 
-    public Operation()
-    {
-        _date = DateTime.Now;
-    }
-
-    public void Modify(Operation newValues) {
-        Data = newValues;
+    public void Modify() {
+        Data.Modify(Name, Amount, Date);
     }
 }

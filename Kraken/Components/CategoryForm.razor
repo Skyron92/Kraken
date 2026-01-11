@@ -1,3 +1,11 @@
-﻿<MudPaper Outlined="true">
-    
-</MudPaper>
+﻿<div style="position: absolute">
+    <MudPaper Class="pa-4">
+        <MudForm @ref="_form" @bind-IsValid="@_success">
+            <MudTextField T="string" Label="Nom de la catégorie" Required="true" RequiredError="Nom requis !" Text="@($"{Category?.Name}")"/>
+        </MudForm>
+    </MudPaper>
+    <MudPaper Class="pa-4 mt-4">
+        <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.Check" OnClick="ValidateForm"/>
+        <MudFab Color="Color.Error" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CloseForm"/>
+    </MudPaper>
+</div>

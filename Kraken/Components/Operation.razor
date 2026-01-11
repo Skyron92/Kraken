@@ -1,1 +1,11 @@
-﻿<MudText Typo="Typo.caption" Color="@(Amount > 0 ? Color.Error : Color.Success)">@_date.Date @_name : @Amount</MudText>
+﻿@using System.Globalization
+<MudStack Row="true">
+    <MudText Typo="Typo.caption">@Date.ToString("f")</MudText>
+    <MudText Typo="Typo.caption">@Name : </MudText>
+    <MudText Typo="Typo.caption" Color="@(_isNegative ? Color.Error : Color.Success)">@(!_isNegative ? "+" : "")@Amount.ToString("C", new CultureInfo("fr-FR"))</MudText>
+</MudStack>
+
+@code
+{
+    bool _isNegative => Amount < 0;
+}
