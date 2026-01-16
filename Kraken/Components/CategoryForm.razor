@@ -1,11 +1,73 @@
-﻿<div style="position: absolute">
+﻿<style>
+    .mud-textfield-like {
+        /* Style de base */
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 16px;
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.04);
+        transition: border-color 0.3s, box-shadow 0.3s;
+        box-sizing: border-box;
+        margin: 8px 0;
+        outline: none;
+    }
+
+    /* Effet au survol */
+    .mud-textfield-like:hover {
+        border-color: rgba(0, 0, 0, 0.42);
+    }
+
+    /* Effet quand l'input est en focus */
+    .mud-textfield-like:focus {
+        border-color: #1976d2; /* Bleu primaire de Material Design */
+        border-width: 2px;
+        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        padding: 11px 15px; /* Ajustement pour compenser la bordure plus épaisse */
+    }
+
+    /* Placeholder */
+    .mud-textfield-like::placeholder {
+        color: rgba(0, 0, 0, 0.38);
+        font-size: 16px;
+    }
+
+    /* Label flottant (optionnel, si tu veux un effet "floating label") */
+    .mud-textfield-container {
+        position: relative;
+        margin: 20px 0;
+    }
+
+    .mud-textfield-container label {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        color: rgba(0, 0, 0, 0.38);
+        transition: all 0.3s;
+        pointer-events: none;
+    }
+
+    .mud-textfield-like:focus + label,
+    .mud-textfield-like:not(:placeholder-shown) + label {
+        top: -12px;
+        left: 12px;
+        font-size: 12px;
+        color: #1976d2;
+        background-color: white;
+        padding: 0 4px;
+    }
+
+</style>
+
+<div style="position: absolute">
     <MudPaper Class="pa-4">
-        <MudForm @ref="_form" @bind-IsValid="@_success">
-            <MudTextField T="string" Label="Nom de la catégorie" Required="true" RequiredError="Nom requis !" Text="@($"{Category?.Name}")"/>
+        <MudForm @bind-IsValid="@Success">
+            <!--MudTextField T="string" Label="Nom de la catégorie" Required="true" RequiredError="Nom requis" @bind-Text="@Name"/-->
+            <input class="mud-textfield-like" @bind="Name"/>
         </MudForm>
     </MudPaper>
     <MudPaper Class="pa-4 mt-4">
-        <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.Check" OnClick="ValidateForm"/>
-        <MudFab Color="Color.Error" StartIcon="@Icons.Material.Filled.Cancel" OnClick="CloseForm"/>
+        <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.Check" OnClick="@ValidateForm"/>
+        <MudFab Color="Color.Error" StartIcon="@Icons.Material.Filled.Cancel" OnClick="@CloseForm"/>
     </MudPaper>
 </div>

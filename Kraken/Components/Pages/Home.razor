@@ -25,13 +25,13 @@
         </MudItem>
     </MudGrid>
     @if (Categories.IsEditing) {
-        <CategoryForm Category="Categories.CategoryEditing" OnValidate="Categories.Validate" OnClose="Categories.CancelEditing"/>
+        <CategoryForm Category="Categories.CategoryEditing" OnValidate="Categories.Validate" IsOpenChanged="Categories.CancelEditing"/>
     }
 </div>
 
 @code
 {
-    public static readonly Categories Categories = new();
+    public Categories Categories { get; } = new();
     bool _isLoading;
     
     protected override async Task OnInitializedAsync() {

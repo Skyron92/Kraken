@@ -1,27 +1,40 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using MudBlazor.Extensions;
 using DataCat = Kraken.Components.Models.Category;
 
 namespace Kraken.Components;
 
 public partial class CategoryForm : ComponentBase
 {
-    [Parameter] public DataCat? Category { get; set; }
-    bool _success;
-    MudForm _form;
-    [Parameter] public EventCallback<bool> OnClose { get; set; }
-    [Parameter] public EventCallback<string> OnValidate { get; set; }
+    [Parameter]
+    public DataCat? Category { get; set; }
 
-    private async Task ValidateForm()
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnValidate { get; set; }
+
+    private bool Success { get; set; }
+    private string Name { get; set; } = "";
+
+    protected override void OnParametersSet()
     {
-        if(!_success) return;
-        await OnValidate.InvokeAsync(_form.FieldId[0].As<string>() ?? string.Empty);
-        await CloseForm();
+        Name = Category?.Name ?? "";
     }
     
+    private async Task ValidateForm()
+    {
+        if (!Success || Name == "") return;
+        await OnValidate.InvokeAsync(Name);
+        await CloseForm();
+    }
+
     private async Task CloseForm()
     {
-        await OnClose.InvokeAsync(true);
+        IsOpen = false;
+        await IsOpenChanged.InvokeAsync(IsOpen);
     }
 }

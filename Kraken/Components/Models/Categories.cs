@@ -33,7 +33,7 @@ public class Categories
         CategoryEditing = Values.Find(x => x.Id == id);
     }
 
-    public void CancelEditing(bool cancel)
+    public async Task CancelEditing(bool cancel)
     {
         IsEditing = cancel;
         CategoryEditing = null;
@@ -54,7 +54,7 @@ public class Categories
     private void ValidateCreation(string name)
     {
         DataCat cat = new DataCat(Guid.NewGuid()) {
-            Name = CategoryEditing!.Name
+            Name = name
         };
         Values.Add(cat);
     }

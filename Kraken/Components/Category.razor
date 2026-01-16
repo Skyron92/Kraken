@@ -1,6 +1,6 @@
 ﻿@using System.Globalization
 <MudStack Row="true">
-    <MudExpansionPanel Text="@($"{Name} : ${RemainingAmount.ToString("C", new CultureInfo("fr-FR"))}")">
+    <MudExpansionPanel Text="@($"{Name} : {RemainingAmount.ToString("C", new CultureInfo("fr-FR"))}")">
         @if (_isLoading)
         {
             <MudProgressCircular Indeterminate Size="Size.Small"/>
